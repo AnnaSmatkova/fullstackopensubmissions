@@ -1,0 +1,13 @@
+title Notes SPA
+
+browser -> server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over server:
+server does not ask to redirect
+recieves JSON data
+end note
+
+server -> browser: {"message":"note created"}
+
+note over browser:
+uses JavaScript to fetch code from server
