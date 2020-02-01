@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 // services
 import contactService from "./services/contacts";
 
+// components
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationType, setNotificationType] = useState("");
 
   useEffect(() => {
     contactService.getAll().then(response => setPersons(response));
@@ -33,6 +36,13 @@ const App = () => {
         id: persons[persons.length - 1].id + 1
       };
 
+      setNotificationMessage(`Added ${newName}`);
+      setNotificationType("positive");
+
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
+
       contactService.create(nameObject).then(returnedContact => {
         setPersons(persons.concat(returnedContact));
         setNewName("");
@@ -46,13 +56,25 @@ const App = () => {
       ) {
         const findPerson = persons.find(person => person.name === newName);
         const changedPerson = { ...findPerson, phone: newNumber };
-        contactService.changeNumber(changedPerson).then(returnedContact => {
-          setPersons(
-            persons.map(person =>
-              person.id !== returnedContact.id ? person : returnedContact
-            )
-          );
-        });
+
+        contactService
+          .changeNumber(changedPerson)
+          .then(returnedContact => {
+            setPersons(
+              persons.map(person =>
+                person.id !== returnedContact.id ? person : returnedContact
+              )
+            );
+          })
+          .catch(error => {
+            setNotificationType("negative");
+            setNotificationMessage(
+              `Information of ${newName} has already been removed from the server`
+            );
+            setTimeout(() => {
+              setNotificationMessage(null);
+            }, 5000);
+          });
         setNewName("");
         setNewNumber("");
       }
@@ -85,6 +107,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter search={newSearch} change={handleSearchChange} />
+      <Notification message={notificationMessage} type={notificationType} />
       <h3>add a new</h3>
       <PersonForm
         addInfo={addInfo}

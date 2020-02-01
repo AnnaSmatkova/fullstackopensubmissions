@@ -1,0 +1,9 @@
+.positive {
+    color: green;
+    background: lightgreen,
+}
+
+.negative {
+    color: red;
+    background: lightgrey; 
+}
