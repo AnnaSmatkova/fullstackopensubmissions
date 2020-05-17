@@ -13,12 +13,14 @@ const Part = ({ part }) => {
 };
 
 const Content = ({ parts }) => {
-  const mapParts = () => parts.map(part => <Part key={part.id} part={part} />);
+  const mapParts = () =>
+    parts.map((part) => <Part key={part.id} part={part} />);
   return <>{mapParts()}</>;
 };
+
 const Total = ({ parts }) => {
   const sumOfExerxices = parts
-    .map(parts => parts.exercises)
+    .map((parts) => parts.exercises)
     .reduce((a, b) => a + b, 0);
   return (
     <p>

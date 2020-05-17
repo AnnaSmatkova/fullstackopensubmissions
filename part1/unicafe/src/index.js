@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-const Button = props => (
-  <button onClick={props.handleclick}>{props.text}</button>
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
 );
 
 const Statistic = ({ label, count }) => {
@@ -57,9 +57,9 @@ const App = () => {
     <div>
       <h1>Give feedback:</h1>
       <div>
-        <Button handleclick={addGood()} text="Good" />
-        <Button handleclick={addNeutral()} text="Neutral" />
-        <Button handleclick={addBad()} text="Bad" />
+        <Button handleClick={addGood()} text="Good" />
+        <Button handleClick={addNeutral()} text="Neutral" />
+        <Button handleClick={addBad()} text="Bad" />
       </div>
       <h1>Statistics:</h1>
       <Statistics good={good} neutral={neutral} bad={bad} total={total} />
