@@ -5,11 +5,11 @@ import axios from "axios";
 const Weather = ({ capital }) => {
   const [weather, setWeather] = useState(null);
 
-  const access_key = "3a26e3809b0ccd570fb71ac50532e297";
+  const access_key = process.env.REACT_APP_API_KEY;
   const weatherUrl = `http://api.weatherstack.com/current?access_key=${access_key}&query=${capital}`;
 
   useEffect(() => {
-    axios.get(weatherUrl).then(response => setWeather(response.data));
+    axios.get(weatherUrl).then((response) => setWeather(response.data));
   }, [weatherUrl]);
 
   if (!weather) {
